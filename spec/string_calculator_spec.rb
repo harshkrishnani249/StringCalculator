@@ -5,13 +5,18 @@ require 'string_calculator'
 
 RSpec.describe StringCalculator do
   describe '#add' do
+    let(:calculator) { StringCalculator.new }
+
     it 'returns 0 for empty string' do
-      calculator = StringCalculator.new
       expect(calculator.add('')).to eq(0)
     end
+
     it 'returns the number itself for a single number' do
-      calculator = StringCalculator.new
       expect(calculator.add('5')).to eq(5)
+    end
+
+    it 'returns the sum of two numbers' do
+      expect(calculator.add('1,2')).to eq(3)
     end
   end
 end
