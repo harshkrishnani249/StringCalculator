@@ -38,5 +38,9 @@ RSpec.describe StringCalculator do
     it 'returns sum of numbers with delimiter of any length' do
       expect(calculator.add("//[***]\n1***2***3")).to eq(6)
     end
+
+    it 'returns sum of numbers with multiple delimiters' do
+      expect(calculator.add("//[*][%]\n1*2%3")).to eq(6)
+    end
   end
 end

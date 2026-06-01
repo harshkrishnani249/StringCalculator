@@ -17,9 +17,14 @@ class StringCalculator
   def extract_delimiter(numbers)
     return [/[,\n]/, numbers] unless numbers.start_with?('//')
 
-    delimiter, numbers = numbers[2..].split("\n", 2)
-    delimiter = delimiter[1..-2] if delimiter.start_with?('[')
-    [delimiter, numbers]
+    delimiter_section, numbers = numbers[2..].split("\n", 2)
+
+    if delimiter_section.start_with?('[')
+      delimiters = delimiter_section.scan(/\[([^\]]+)\]/).flatten
+      [Regexp.union(delimiters), numbers]
+    else
+      [delimiter_section, numbers]
+    end
   end
 
   def validate_negatives!(nums)
