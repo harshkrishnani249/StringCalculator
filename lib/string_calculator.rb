@@ -18,6 +18,7 @@ class StringCalculator
     return [/[,\n]/, numbers] unless numbers.start_with?('//')
 
     delimiter, numbers = numbers[2..].split("\n", 2)
+    delimiter = delimiter[1..-2] if delimiter.start_with?('[')
     [delimiter, numbers]
   end
 
