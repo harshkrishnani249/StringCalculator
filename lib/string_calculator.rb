@@ -5,15 +5,24 @@ class StringCalculator
   def add(numbers)
     return 0 if numbers.empty?
 
-    if numbers.start_with?('//')
-      delimiter, numbers = numbers[2..].split("\n", 2)
-      return numbers.split(delimiter).sum(&:to_i)
-    end
+    delimiter, numbers = extract_delimiter(numbers)
+    nums = numbers.split(delimiter).map(&:to_i).reject { |n| n > 1000 }
 
-    nums = numbers.split(/[,\n]/).map(&:to_i)
+    validate_negatives!(nums)
+    nums.sum
+  end
+
+  private
+
+  def extract_delimiter(numbers)
+    return [/[,\n]/, numbers] unless numbers.start_with?('//')
+
+    delimiter, numbers = numbers[2..].split("\n", 2)
+    [delimiter, numbers]
+  end
+
+  def validate_negatives!(nums)
     negative_nums = nums.select(&:negative?)
     raise ArgumentError, "negative numbers not allowed: #{negative_nums.join(', ')}" if negative_nums.any?
-
-    nums.sum
   end
 end
